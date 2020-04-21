@@ -1,0 +1,28 @@
+version: "3.7"
+
+services:
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+      - api
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    links:
+      - api
+    ports:
+      - "3000:3000"
+  api:
+    restart: always
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
